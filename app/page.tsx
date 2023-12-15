@@ -6,12 +6,11 @@ import { Input } from "@/components/ui/input";
 import Link from "next/link";
 import debounce from "lodash.debounce";
 import axios from "axios";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { IUser } from "@/types";
 import { Loader2 } from "lucide-react";
 import { Table, TableBody } from "@/components/ui/table";
 import { DatePicker } from "@/components/shared/date-picker";
-import dateFormat from "dateformat";
 
 export default function Home() {
   const [allUsers, setAllUsers] = useState<IUser[]>([]);
@@ -111,11 +110,7 @@ export default function Home() {
         </div>
 
         <div className="ml-20">
-          <DatePicker
-            // clickToDatePicker={clickToDatePicker}
-            date={date}
-            setDate={setDate}
-          />
+          <DatePicker date={date} setDate={setDate} />
         </div>
       </div>
       <div className="mt-2">
