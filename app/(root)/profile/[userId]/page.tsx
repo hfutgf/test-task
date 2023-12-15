@@ -79,7 +79,7 @@ const Page = ({ params }: Props) => {
             <p
               className="hover:border-b-[1px] hover:border-black"
               onClick={() => {
-                copy(user?.email);
+                // copy(user.email);
               }}
             >
               Email: {user?.email}
