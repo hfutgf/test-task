@@ -36,7 +36,7 @@ const User = ({ setUsers, user, users, setIsLoading }: Props) => {
 
   return (
     <TableRow
-      className="cursor-pointer"
+      className="cursor-pointer "
       onClick={() => clickToCell(user.id)}
       key={user.id}
     >

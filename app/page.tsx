@@ -6,15 +6,18 @@ import { Input } from "@/components/ui/input";
 import Link from "next/link";
 import debounce from "lodash.debounce";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { IUser } from "@/types";
 import { Loader2 } from "lucide-react";
 import { Table, TableBody } from "@/components/ui/table";
+import { DatePicker } from "@/components/shared/date-picker";
+import dateFormat from "dateformat";
 
 export default function Home() {
   const [allUsers, setAllUsers] = useState<IUser[]>([]);
   const [users, setUsers] = useState<IUser[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [date, setDate] = useState<Date>();
 
   const getUsers = async () => {
     try {
@@ -48,6 +51,41 @@ export default function Home() {
     }
   };
 
+  const onSort = async (e: any) => {
+    const value = e.target.value;
+
+    try {
+      setIsLoading(true);
+      if (value === "user" || value === "admin") {
+        const data = allUsers.filter(
+          (u) => u.roleName.toLocaleLowerCase() === value.toLocaleLowerCase()
+        );
+        setUsers(data);
+      } else {
+        setUsers(allUsers);
+      }
+
+      setIsLoading(false);
+    } catch (error) {
+      console.log(error);
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    const change = date?.toString().split(" ").splice(0, 3).join(" ");
+    if (change) {
+      const filterUsers = allUsers.filter(
+        (u) =>
+          new Date(u.createdAt).toString().split(" ").splice(0, 3).join(" ") ===
+          change
+      );
+      setUsers(filterUsers);
+    } else {
+      setUsers(allUsers);
+    }
+  }, [date]);
+
   return (
     <div className="container mx-auto py-2 relative">
       <div className="flex items-center">
@@ -63,6 +101,22 @@ export default function Home() {
             Search
           </Button>
         </form>
+
+        <div className="ml-20">
+          <select onChange={onSort}>
+            <option value="all">All</option>
+            <option value="user">User</option>
+            <option value="admin">Admin</option>
+          </select>
+        </div>
+
+        <div className="ml-20">
+          <DatePicker
+            // clickToDatePicker={clickToDatePicker}
+            date={date}
+            setDate={setDate}
+          />
+        </div>
       </div>
       <div className="mt-2">
         <div>
@@ -73,14 +127,21 @@ export default function Home() {
           )}
           <Table>
             <TableBody>
-              {users.map((user) => (
-                <User
-                  users={users}
-                  setUsers={setUsers}
-                  user={user}
-                  setIsLoading={setIsLoading}
-                />
-              ))}
+              {!users.length ? (
+                <p className="flex items-center justify-center text-[32px] fixed min-h-full w-screen left-0 ">
+                  Users does not exist
+                </p>
+              ) : (
+                users.map((user) => (
+                  <User
+                    key={user.id}
+                    users={users}
+                    setUsers={setUsers}
+                    user={user}
+                    setIsLoading={setIsLoading}
+                  />
+                ))
+              )}
             </TableBody>
           </Table>
         </div>

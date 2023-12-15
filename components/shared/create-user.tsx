@@ -5,7 +5,6 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { Input } from "../ui/input";
 import { Button } from "@/components/ui/button";
 import axios from "axios";
-import * as uuid from "uuid";
 import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { IUser } from "@/types";
