@@ -15,7 +15,7 @@ interface Props {
 
 const Page = ({ params }: Props) => {
   const [isLoading, setIsLoading] = useState(false);
-  const [user, setUser] = useState<IUser | null>(null);
+  const [user, setUser] = useState<IUser>();
   const [opentModal, setOpenModal] = useState(false);
 
   const router = useRouter();

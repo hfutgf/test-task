@@ -10,9 +10,9 @@ import { useRouter } from "next/navigation";
 
 interface Props {
   setOpenModal: React.Dispatch<SetStateAction<boolean>>;
-  setUser: React.Dispatch<SetStateAction<IUser | null>>;
+  setUser: React.Dispatch<SetStateAction<IUser | undefined>>;
   id: string;
-  user: IUser | null;
+  user: IUser | undefined;
 }
 
 const EditModal = ({ setOpenModal, id, user, setUser }: Props) => {
